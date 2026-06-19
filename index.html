@@ -199,10 +199,10 @@
     function getPBase(x) {
         if (x === 0) return 0;
         if (x <= 0.3) {
-            return 250 * Math.pow(x / 0.3, 2);
+            return 500 * Math.pow(x / 0.3, 2);
         }
         else if (x <= 0.46) {
-            return 250 + (25000 - 250) * ((x - 0.3) / 0.16);
+            return 500 + (25000 - 500) * ((x - 0.3) / 0.16);
         }
         else if (x <= 4) {
             const freq = 12 * Math.PI * 2 / (4 - 0.46);
@@ -343,7 +343,7 @@
         // d1 và d_ph (Chỉ xuất hiện khi đứt gãy)
         if (isBroken) {
             // d1
-            const d1_val = state.d * 0.911;
+            const d1_val = state.d * 0.919;
             const yBotLabel = bottomGripY - specLength * 0.15;
             ctxS.fillStyle = '#d97706';
             ctxS.fillText(`d₁ = ${d1_val.toFixed(2)} mm`, textXLeft, yBotLabel);
