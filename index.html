@@ -15,79 +15,39 @@
         .left-panel { width: 33.33%; position: relative; background: #eef2f6; border-right: 2px solid #cbd5e1; display: flex; flex-direction: column; }
         .right-panel { width: 66.67%; position: relative; background: #ffffff; display: flex; flex-direction: row;}
         .graph-container { flex-grow: 1; position: relative; padding: 10px; display: flex; }
-        .control-panel { width: 180px; background: #f8fafc; border-left: 1px solid #e2e8f0; padding: 15px; display: flex; flex-direction: column; gap: 15px; z-index: 10; }
         
-        .info-box { position: absolute; top: 10px; left: 10px; background: rgba(255,255,255,0.4); backdrop-filter: blur(3px); padding: 10px; border-radius: 6px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); border: 1px solid rgba(203,213,225,0.6); z-index: 10; width: calc(100% - 20px); }
-        .input-group { margin-top: 8px; display: flex; justify-content: space-between; align-items: center; font-size: 14px; font-weight: 500; }
-        .input-group input { width: 70px; padding: 2px 5px; border: 1px solid #94a3b8; border-radius: 4px; text-align: right; background: rgba(255,255,255,0.9); }
+        /* Cột điều khiển thu hẹp lại còn 120px */
+        .control-panel { width: 120px; background: #f8fafc; border-left: 1px solid #e2e8f0; padding: 15px 10px; display: flex; flex-direction: column; z-index: 10; }
+        
+        /* Thanh trượt gia tải dọc */
+        .vertical-slider {
+            -webkit-appearance: slider-vertical;
+            appearance: slider-vertical;
+            width: 30px;
+            height: 100%;
+            cursor: grab;
+            outline: none;
+            background: #e2e8f0;
+            border-radius: 8px;
+        }
+        .vertical-slider:active { cursor: grabbing; }
+        
+        .info-box { position: absolute; top: 10px; left: 10px; background: rgba(255,255,255,0.15); backdrop-filter: blur(1px); padding: 10px; border-radius: 6px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); border: 1px solid rgba(203,213,225,0.3); z-index: 10; width: calc(100% - 20px); }
+        .info-box h3 { text-shadow: 0px 1px 2px rgba(255,255,255,0.8); }
+        .input-group { margin-top: 8px; display: flex; justify-content: space-between; align-items: center; font-size: 14px; font-weight: 500; text-shadow: 0px 1px 2px rgba(255,255,255,0.8); }
+        .input-group input { width: 65px; padding: 2px 5px; border: 1px solid #94a3b8; border-radius: 4px; text-align: right; background: rgba(255,255,255,0.9); text-shadow: none; font-size: 13px;}
         
         canvas { display: block; width: 100%; height: 100%; }
-        
-        .btn { padding: 8px 12px; border-radius: 6px; font-weight: bold; cursor: pointer; text-align: center; transition: all 0.2s; border: none; color: white;}
-        .btn-start { background-color: #2563eb; }
-        .btn-start:hover { background-color: #1d4ed8; }
-        .btn-pause { background-color: #f59e0b; }
-        .btn-pause:hover { background-color: #d97706; }
-        .btn-reset { background-color: #ef4444; }
-        .btn-reset:hover { background-color: #dc2626; }
-        .btn:disabled { background-color: #94a3b8; cursor: not-allowed; }
 
-        /* Container chứa ô chú thích */
-        .annotations-overlay {
-            position: absolute;
-            right: 20px;
-            bottom: 75px; 
-            display: flex;
-            flex-direction: column-reverse; 
-            gap: 10px;
-            pointer-events: none;
-            z-index: 15;
-        }
-
-        /* Ô chú thích giảm xuống còn 80% */
-        .annotation {
-            background: rgba(255, 255, 255, 0.95);
-            border: 2px solid;
-            padding: 8px 10px;
-            border-radius: 6px;
-            font-size: 11.5px; /* Giảm font-size ~80% */
-            font-weight: 600;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-            max-width: 175px; 
-            line-height: 1.3;
-            
-            opacity: 0;
-            transform: translateY(20px);
-            transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
+        .annotations-overlay { position: absolute; right: 20px; bottom: 75px; display: flex; flex-direction: column-reverse; gap: 10px; pointer-events: none; z-index: 15; }
+        .annotation { background: rgba(255, 255, 255, 0.95); border: 2px solid; padding: 8px 10px; border-radius: 6px; font-size: 11.5px; font-weight: 600; box-shadow: 0 4px 10px rgba(0,0,0,0.1); max-width: 175px; line-height: 1.3; opacity: 0; transform: translateY(20px); transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .annotation.show { opacity: 1; transform: translateY(0); }
+        .annotation::after { content: ''; position: absolute; top: 50%; left: -10px; transform: translateY(-50%); border-width: 5px; border-style: solid; }
         
-        .annotation.show {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .annotation::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: -10px;
-            transform: translateY(-50%);
-            border-width: 5px;
-            border-style: solid;
-        }
-
-        .anno-blue { color: #2563eb; border-color: #2563eb; }
-        .anno-blue::after { border-color: transparent #2563eb transparent transparent; }
-        
-        .anno-orange { color: #d97706; border-color: #d97706; }
-        .anno-orange::after { border-color: transparent #d97706 transparent transparent; }
-        
-        .anno-green { color: #16a34a; border-color: #16a34a; }
-        .anno-green::after { border-color: transparent #16a34a transparent transparent; }
-        
-        .anno-red { color: #dc2626; border-color: #dc2626; }
-        .anno-red::after { border-color: transparent #dc2626 transparent transparent; }
-
+        .anno-blue { color: #2563eb; border-color: #2563eb; } .anno-blue::after { border-color: transparent #2563eb transparent transparent; }
+        .anno-orange { color: #d97706; border-color: #d97706; } .anno-orange::after { border-color: transparent #d97706 transparent transparent; }
+        .anno-green { color: #16a34a; border-color: #16a34a; } .anno-green::after { border-color: transparent #16a34a transparent transparent; }
+        .anno-red { color: #dc2626; border-color: #dc2626; } .anno-red::after { border-color: transparent #dc2626 transparent transparent; }
     </style>
 </head>
 <body>
@@ -99,7 +59,7 @@
         <!-- PANEL TRÁI -->
         <div class="left-panel">
             <div class="info-box">
-                <h3 class="font-bold text-center text-sm text-blue-800 border-b border-blue-200 pb-1">THÔNG TIN MẪU THỬ THÉP MỀM CT3</h3>
+                <h3 class="font-bold text-center text-sm text-blue-800 border-b border-blue-200 pb-1">ỨNG XỬ CỦA MẪU KHI CHỊU KÉO</h3>
                 <div class="input-group mt-2 text-blue-900">
                     <label for="inputD">Đường kính d<sub>0</sub> (mm):</label>
                     <input type="number" id="inputD" value="10.00" min="9" max="11" step="0.05">
@@ -119,34 +79,37 @@
                 
                 <div class="annotations-overlay">
                     <div id="anno-1" class="annotation anno-blue">
-                        <b>GĐ Đàn hồi:</b> P tăng - ΔL tăng tỉ lệ.<br><i class="text-[10px]">ĐL Hooke: σ = E.ε</i>
+                        <b>GĐ Đàn hồi:</b> P tăng - ΔL tăng tỉ lệ.<br><i class="text-[12px]">ĐL Hooke: σ = E.ε</i>
                     </div>
                     <div id="anno-2" class="annotation anno-orange">
-                        <b>GĐ Chảy dẻo:</b> P không đổi- ΔL tăng (biến dạng dư).
+                        <b>GĐ Chảy dẻo:</b> P không đổi - ΔL vẫn tăng (có biến dạng dư).
                     </div>
                     <div id="anno-3" class="annotation anno-green">
-                        <b>GĐ Củng cố:</b> P tăng ít, ΔL tăng nhiều. Tổ chức biến đổi.
+                        <b>GĐ Củng cố:</b> P tăng ít - ΔL tăng nhiều. Tổ chức biến đổi.
                     </div>
                     <div id="anno-4" class="annotation anno-red">
-                        <b>GĐ Phá huỷ:</b> P giảm dần, xuất hiện điểm thắt và đứt gãy.
+                        <b>GĐ Phá huỷ:</b> P giảm dần, xuất hiện điểm thắt mẫu đứt gãy.
                     </div>
                 </div>
             </div>
 
+            <!-- BẢNG ĐIỀU KHIỂN GIA TẢI TRỰC QUAN -->
             <div class="control-panel shadow-inner">
-                <h3 class="font-bold text-center text-gray-700 uppercase text-sm border-b pb-2">Bảng Gia Tải</h3>
-                <button id="btnStart" class="btn btn-start">BẮT ĐẦU</button>
-                <button id="btnPause" class="btn btn-pause" disabled>TẠM DỪNG</button>
-                <button id="btnReset" class="btn btn-reset">LÀM LẠI</button>
+                <h3 class="font-bold text-center text-gray-700 uppercase text-[11px] border-b pb-2">KÉO GIA TẢI</h3>
                 
-                <div class="mt-4">
-                    <label class="block text-xs font-semibold text-gray-600 mb-1">Tốc độ kéo:</label>
-                    <input type="range" id="speedSlider" min="0.1" max="2" value="0.8" step="0.1" class="w-full">
+                <div class="flex-grow flex justify-center py-4 relative">
+                    <!-- Con trượt dọc. Top = 25 (0 load), Bottom = 0 (max load) -->
+                    <input type="range" id="pullSlider" min="0" max="25" step="0.05" value="25" orient="vertical" class="vertical-slider">
+                    
+                    <!-- Hướng dẫn mũi tên thả dọc -->
+                    <div class="absolute left-1/2 transform -translate-x-1/2 pointer-events-none opacity-40" style="bottom: 15px;">
+                        <svg class="w-6 h-6 text-red-600 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
+                    </div>
                 </div>
 
-                <div class="mt-auto bg-gray-200 p-3 rounded text-sm text-center">
-                    <div class="font-bold text-gray-700">Giá trị tức thời</div>
-                    <div class="mt-1 text-red-600 font-bold font-mono">P: <span id="valP">0</span> N</div>
+                <div class="mt-auto bg-gray-200 p-2 rounded text-[15px] text-center">
+                    <div class="font-bold text-gray-800 border-b border-gray-300 pb-1 mb-1">Giá trị hiện tại</div>
+                    <div class="text-red-600 font-bold font-mono">P: <span id="valP">0</span> N</div>
                     <div class="text-blue-600 font-bold font-mono">ΔL: <span id="valdL">0.00</span> mm</div>
                 </div>
             </div>
@@ -156,21 +119,16 @@
 
 <script>
     let state = {
-        isRunning: false,
-        isFinished: false,
         d: 10,        
         L0: 100,      
         xBase: 0,     
-        speed: 0.8,   
         scaleF: 1,    
         scaleL: 1,
         breakRatio: 0.5 
     };
 
     const CONSTANTS = {
-        MAX_X_BASE: 25, 
-        MAX_F_GRAPH: 50000,
-        MAX_X_GRAPH: 35
+        MAX_X_BASE: 25
     };
 
     const canvasSpecimen = document.getElementById('canvasSpecimen');
@@ -180,10 +138,7 @@
     
     const inputD = document.getElementById('inputD');
     const inputL0 = document.getElementById('inputL0');
-    const btnStart = document.getElementById('btnStart');
-    const btnPause = document.getElementById('btnPause');
-    const btnReset = document.getElementById('btnReset');
-    const speedSlider = document.getElementById('speedSlider');
+    const pullSlider = document.getElementById('pullSlider');
     const valP = document.getElementById('valP');
     const valdL = document.getElementById('valdL');
     
@@ -194,8 +149,7 @@
         document.getElementById('anno-4')
     ];
 
-    let animationFrameId;
-
+    // --- MÔ HÌNH TOÁN HỌC ĐƯỜNG CONG CT3 ---
     function getPBase(x) {
         if (x === 0) return 0;
         if (x <= 0.3) {
@@ -204,15 +158,19 @@
         else if (x <= 0.46) {
             return 500 + (25000 - 500) * ((x - 0.3) / 0.16);
         }
-        else if (x <= 4) {
-            const freq = 12 * Math.PI * 2 / (4 - 0.46);
-            return 25600 + 300 * Math.sin((x - 0.46) * freq);
+        else if (x <= 0.5) {
+            let t = (x - 0.46) / 0.04; 
+            return 25000 + 600 * t * (2 - t); 
+        }
+        else if (x <= 4.5) {
+            const freq = 12 * Math.PI * 2 / (4.5 - 0.5);
+            return 25600 + 300 * Math.sin((x - 0.5) * freq);
         }
         else if (x <= 20) {
-            return -48.4375 * Math.pow(x - 20, 2) + 38000;
+            return 38000 - 51.6129 * Math.pow(x - 20, 2);
         }
         else if (x <= 25) {
-            return -472 * Math.pow(x - 20, 2) + 38000;
+            return 38000 - 472 * Math.pow(x - 20, 2);
         }
         return 0; 
     }
@@ -230,7 +188,6 @@
     }
     window.addEventListener('resize', resizeCanvases);
 
-    // Vẽ đường gióng (hỗ trợ vẽ sang bên trái)
     function drawLeaderLine(ctx, textX, textY, edgeX, edgeY, color, isLeft = false) {
         ctx.beginPath();
         if (isLeft) {
@@ -251,6 +208,57 @@
         ctx.fill();
     }
 
+    // --- VẼ NGÀM KẸP 3D ---
+    function draw3DGrip(ctx, cx, gripEdgeY, isTop) {
+        const gw = 110, gh = 65;
+        const yStart = isTop ? gripEdgeY - gh : gripEdgeY;
+
+        const grd = ctx.createLinearGradient(cx - gw/2, 0, cx + gw/2, 0);
+        grd.addColorStop(0, '#334155'); grd.addColorStop(0.2, '#64748b'); 
+        grd.addColorStop(0.5, '#94a3b8'); grd.addColorStop(0.8, '#475569'); 
+        grd.addColorStop(1, '#1e293b');
+
+        ctx.fillStyle = grd;
+        ctx.strokeStyle = '#0f172a';
+        ctx.lineWidth = 2;
+
+        ctx.beginPath();
+        ctx.rect(cx - gw/2, yStart, gw, gh);
+        ctx.fill(); ctx.stroke();
+
+        const jw = 48, jh = 35;
+        const jy = isTop ? gripEdgeY - jh : gripEdgeY;
+        
+        const jgrd = ctx.createLinearGradient(cx - jw/2, 0, cx + jw/2, 0);
+        jgrd.addColorStop(0, '#94a3b8'); jgrd.addColorStop(0.5, '#f8fafc'); jgrd.addColorStop(1, '#64748b');
+        
+        ctx.fillStyle = jgrd;
+        
+        ctx.beginPath();
+        if (isTop) {
+            ctx.moveTo(cx - jw/2, jy); ctx.lineTo(cx - 5, jy); ctx.lineTo(cx - 15, jy + jh); ctx.lineTo(cx - jw/2, jy + jh);
+        } else {
+            ctx.moveTo(cx - jw/2, jy + jh); ctx.lineTo(cx - 5, jy + jh); ctx.lineTo(cx - 15, jy); ctx.lineTo(cx - jw/2, jy);
+        }
+        ctx.fill(); ctx.stroke();
+
+        ctx.beginPath();
+        if (isTop) {
+            ctx.moveTo(cx + jw/2, jy); ctx.lineTo(cx + 5, jy); ctx.lineTo(cx + 15, jy + jh); ctx.lineTo(cx + jw/2, jy + jh);
+        } else {
+            ctx.moveTo(cx + jw/2, jy + jh); ctx.lineTo(cx + 5, jy + jh); ctx.lineTo(cx + 15, jy); ctx.lineTo(cx + jw/2, jy);
+        }
+        ctx.fill(); ctx.stroke();
+
+        ctx.fillStyle = '#0f172a';
+        ctx.beginPath(); ctx.arc(cx - 35, yStart + gh/2, 7, 0, Math.PI*2); ctx.fill();
+        ctx.beginPath(); ctx.arc(cx + 35, yStart + gh/2, 7, 0, Math.PI*2); ctx.fill();
+        ctx.fillStyle = '#cbd5e1';
+        ctx.beginPath(); ctx.arc(cx - 35, yStart + gh/2, 4, 0, Math.PI*2); ctx.fill();
+        ctx.beginPath(); ctx.arc(cx + 35, yStart + gh/2, 4, 0, Math.PI*2); ctx.fill();
+    }
+
+    // --- ĐỒ HỌA PANEL TRÁI ---
     function drawSpecimenCanvas() {
         const w = canvasSpecimen.width;
         const h = canvasSpecimen.height;
@@ -259,27 +267,38 @@
         const realDeltaL = state.xBase * state.scaleL;
         const currentP = getPBase(state.xBase) * state.scaleF;
         
-        const centerX = w / 2 - 20; // Chỉnh lại vị trí tâm mẫu để không bị quá sát lề phải
-        const topGripY = h * 0.20;
-        const baseBottomGripY = h * 0.65; 
+        const centerX = w / 2 - 20; 
+        const topGripY = h * 0.15;
+        const baseBottomGripY = h * 0.70; 
         
-        const pxPerMm = 80 / 30; 
-        const elongationPx = realDeltaL * pxPerMm;
-        const bottomGripY = baseBottomGripY + elongationPx;
+        const L_total = 20 + 15 + state.L0 + 15 + 20; 
+        const pxPerMmBase = (baseBottomGripY - topGripY) / L_total;
         
-        const specLength = bottomGripY - topGripY;
-        const geometricMidY = topGripY + specLength / 2; 
-        const neckY = topGripY + specLength * state.breakRatio; 
-        const dPx = (state.d / 10) * 24; 
+        const extPx = 20 * pxPerMmBase;   
+        const transPx = 15 * pxPerMmBase; 
+        
+        const topExtY = topGripY + extPx;
+        const topTransY = topExtY + transPx;
+        
+        const baseBotTransY = topTransY + state.L0 * pxPerMmBase;
+        
+        const elongationPx = realDeltaL * pxPerMmBase;
+        const botTransY = baseBotTransY + elongationPx;
+        const botExtY = botTransY + transPx;
+        const bottomGripY = botExtY + extPx;
 
-        const topDist = neckY - topGripY;
-        const botDist = bottomGripY - neckY;
+        const middleLen = botTransY - topTransY;
+        const neckY = topTransY + middleLen * state.breakRatio; 
 
-        // 1. Vẽ thước đo & Kim (Dịch thước sát sát ngàm kẹp bên phải mẫu)
-        const rulerX = centerX + 55; // Sát vào ngàm (ngàm rộng 40px)
-        drawRuler(ctxS, rulerX, topGripY, baseBottomGripY, bottomGripY, pxPerMm);
+        const dPx = (state.d / 10) * 26; 
+        const D_px = (14 / 10) * 26; 
 
-        // 2. Tính toán độ thắt cổ chai giảm tối đa 38%
+        const topDist = neckY - topTransY;
+        const botDist = botTransY - neckY;
+
+        const rulerX = centerX + 65; 
+        drawRuler(ctxS, rulerX, topTransY, baseBotTransY, botTransY, pxPerMmBase);
+
         let neckFactor = 1;
         if (state.xBase > 20) {
             const progress = (state.xBase - 20) / 5;
@@ -289,67 +308,91 @@
         const neckWidth = dPx * neckFactor;
         const isBroken = state.xBase >= CONSTANTS.MAX_X_BASE;
 
-        ctxS.fillStyle = '#94a3b8'; 
-        ctxS.strokeStyle = '#475569';
-        ctxS.lineWidth = 2;
+        const specGrd = ctxS.createLinearGradient(centerX - D_px/2, 0, centerX + D_px/2, 0);
+        specGrd.addColorStop(0, '#475569');
+        specGrd.addColorStop(0.25, '#cbd5e1');
+        specGrd.addColorStop(0.5, '#94a3b8');
+        specGrd.addColorStop(0.75, '#f1f5f9');
+        specGrd.addColorStop(1, '#334155');
+
+        ctxS.fillStyle = specGrd; 
+        ctxS.strokeStyle = '#1e293b';
+        ctxS.lineWidth = 1.5;
 
         if (!isBroken) {
             ctxS.beginPath();
-            ctxS.moveTo(centerX - dPx/2, topGripY);
-            ctxS.bezierCurveTo(centerX - dPx/2, topGripY + topDist*0.6, centerX - neckWidth/2, neckY - topDist*0.2, centerX - neckWidth/2, neckY);
-            ctxS.bezierCurveTo(centerX - neckWidth/2, neckY + botDist*0.2, centerX - dPx/2, bottomGripY - botDist*0.6, centerX - dPx/2, bottomGripY);
-            ctxS.lineTo(centerX + dPx/2, bottomGripY);
-            ctxS.bezierCurveTo(centerX + dPx/2, bottomGripY - botDist*0.6, centerX + neckWidth/2, neckY + botDist*0.2, centerX + neckWidth/2, neckY);
-            ctxS.bezierCurveTo(centerX + neckWidth/2, neckY - topDist*0.2, centerX + dPx/2, topGripY + topDist*0.6, centerX + dPx/2, topGripY);
+            ctxS.moveTo(centerX - D_px/2, topGripY);
+            ctxS.lineTo(centerX - D_px/2, topExtY);
+            ctxS.bezierCurveTo(centerX - D_px/2, topExtY + transPx/2, centerX - dPx/2, topExtY + transPx/2, centerX - dPx/2, topTransY);
+            ctxS.bezierCurveTo(centerX - dPx/2, topTransY + topDist*0.6, centerX - neckWidth/2, neckY - topDist*0.2, centerX - neckWidth/2, neckY);
+            ctxS.bezierCurveTo(centerX - neckWidth/2, neckY + botDist*0.2, centerX - dPx/2, botTransY - botDist*0.6, centerX - dPx/2, botTransY);
+            ctxS.bezierCurveTo(centerX - dPx/2, botExtY - transPx/2, centerX - D_px/2, botExtY - transPx/2, centerX - D_px/2, botExtY);
+            ctxS.lineTo(centerX - D_px/2, bottomGripY);
+            
+            ctxS.lineTo(centerX + D_px/2, bottomGripY);
+            ctxS.lineTo(centerX + D_px/2, botExtY);
+            ctxS.bezierCurveTo(centerX + D_px/2, botExtY - transPx/2, centerX + dPx/2, botExtY - transPx/2, centerX + dPx/2, botTransY);
+            ctxS.bezierCurveTo(centerX + dPx/2, botTransY - botDist*0.6, centerX + neckWidth/2, neckY + botDist*0.2, centerX + neckWidth/2, neckY);
+            ctxS.bezierCurveTo(centerX + neckWidth/2, neckY - topDist*0.2, centerX + dPx/2, topTransY + topDist*0.6, centerX + dPx/2, topTransY);
+            ctxS.bezierCurveTo(centerX + dPx/2, topExtY + transPx/2, centerX + D_px/2, topExtY + transPx/2, centerX + D_px/2, topExtY);
+            ctxS.lineTo(centerX + D_px/2, topGripY);
             ctxS.closePath();
             ctxS.fill(); ctxS.stroke();
-            
-            ctxS.fillStyle = 'rgba(255,255,255,0.3)';
-            ctxS.fillRect(centerX - dPx/4, topGripY, dPx/4, specLength);
         } else {
             const gap = 18; 
             const offset45 = neckWidth / 2;
 
             ctxS.beginPath();
-            ctxS.moveTo(centerX - dPx/2, topGripY);
-            ctxS.bezierCurveTo(centerX - dPx/2, topGripY + topDist*0.5, centerX - neckWidth/2, neckY - gap/2 - offset45, centerX - neckWidth/2, neckY - gap/2);
+            ctxS.moveTo(centerX - D_px/2, topGripY);
+            ctxS.lineTo(centerX - D_px/2, topExtY);
+            ctxS.bezierCurveTo(centerX - D_px/2, topExtY + transPx/2, centerX - dPx/2, topExtY + transPx/2, centerX - dPx/2, topTransY);
+            ctxS.bezierCurveTo(centerX - dPx/2, topTransY + topDist*0.5, centerX - neckWidth/2, neckY - gap/2 - offset45, centerX - neckWidth/2, neckY - gap/2);
             ctxS.lineTo(centerX + neckWidth/2, (neckY - gap/2) - offset45);
-            ctxS.bezierCurveTo(centerX + neckWidth/2, neckY - gap/2 - offset45, centerX + dPx/2, topGripY + topDist*0.5, centerX + dPx/2, topGripY);
+            ctxS.bezierCurveTo(centerX + neckWidth/2, neckY - gap/2 - offset45, centerX + dPx/2, topTransY + topDist*0.5, centerX + dPx/2, topTransY);
+            ctxS.bezierCurveTo(centerX + dPx/2, topExtY + transPx/2, centerX + D_px/2, topExtY + transPx/2, centerX + D_px/2, topExtY);
+            ctxS.lineTo(centerX + D_px/2, topGripY);
             ctxS.closePath();
             ctxS.fill(); ctxS.stroke();
 
             ctxS.beginPath();
-            ctxS.moveTo(centerX - dPx/2, bottomGripY);
-            ctxS.bezierCurveTo(centerX - dPx/2, bottomGripY - botDist*0.5, centerX - neckWidth/2, neckY + gap/2 + offset45, centerX - neckWidth/2, (neckY + gap/2) + offset45);
+            ctxS.moveTo(centerX - D_px/2, bottomGripY);
+            ctxS.lineTo(centerX - D_px/2, botExtY);
+            ctxS.bezierCurveTo(centerX - D_px/2, botExtY - transPx/2, centerX - dPx/2, botExtY - transPx/2, centerX - dPx/2, botTransY);
+            ctxS.bezierCurveTo(centerX - dPx/2, botTransY - botDist*0.5, centerX - neckWidth/2, neckY + gap/2 + offset45, centerX - neckWidth/2, (neckY + gap/2) + offset45);
             ctxS.lineTo(centerX + neckWidth/2, neckY + gap/2);
-            ctxS.bezierCurveTo(centerX + neckWidth/2, neckY + gap/2, centerX + dPx/2, bottomGripY - botDist*0.5, centerX + dPx/2, bottomGripY);
+            ctxS.bezierCurveTo(centerX + neckWidth/2, neckY + gap/2, centerX + dPx/2, botTransY - botDist*0.5, centerX + dPx/2, botTransY);
+            ctxS.bezierCurveTo(centerX + dPx/2, botExtY - transPx/2, centerX + D_px/2, botExtY - transPx/2, centerX + D_px/2, botExtY);
+            ctxS.lineTo(centerX + D_px/2, bottomGripY);
             ctxS.closePath();
             ctxS.fill(); ctxS.stroke();
         }
 
-        // 3. Ghi các kích thước d0, d1, d_ph trực tiếp bên TRÁI mẫu
+        draw3DGrip(ctxS, centerX, topGripY, true);
+        draw3DGrip(ctxS, centerX, bottomGripY, false);
+
         ctxS.font = "bold 13px Arial";
         ctxS.textAlign = "right"; 
-        const textXLeft = centerX - dPx/2 - 25;
+        const textXLeft = centerX - D_px/2 - 20;
         
-        // d0 (Chỉ xuất hiện khi chưa kéo)
         if (state.xBase === 0) {
-            const yTopLabel = topGripY + specLength * 0.15;
+            const yTopExt = topGripY + extPx/2;
+            ctxS.fillStyle = '#1e293b';
+            ctxS.fillText(`D = 14 mm`, textXLeft, yTopExt);
+            drawLeaderLine(ctxS, textXLeft, yTopExt, centerX - D_px/2, yTopExt, '#1e293b', true);
+
+            const yTopLabel = topTransY + 20;
             ctxS.fillStyle = '#1e3a8a';
             ctxS.fillText(`d₀ = ${state.d.toFixed(2)} mm`, textXLeft, yTopLabel);
             drawLeaderLine(ctxS, textXLeft, yTopLabel, centerX - dPx/2, yTopLabel, '#1e3a8a', true);
         }
 
-        // d1 và d_ph (Chỉ xuất hiện khi đứt gãy)
         if (isBroken) {
-            // d1
-            const d1_val = state.d * 0.919;
-            const yBotLabel = bottomGripY - specLength * 0.15;
+            const d1_val = state.d * 0.911;
+            const yBotLabel = botTransY - 20;
             ctxS.fillStyle = '#d97706';
             ctxS.fillText(`d₁ = ${d1_val.toFixed(2)} mm`, textXLeft, yBotLabel);
             drawLeaderLine(ctxS, textXLeft, yBotLabel, centerX - dPx/2, yBotLabel, '#d97706', true);
 
-            // d_ph
             const dph_val = state.d * 0.62;
             const yNeckLabel = neckY - 25; 
             ctxS.fillStyle = '#dc2626';
@@ -357,26 +400,17 @@
             drawLeaderLine(ctxS, textXLeft, yNeckLabel, centerX - neckWidth/2, yNeckLabel, '#dc2626', true);
         }
 
-        // 4. Vẽ ngàm kẹp
-        ctxS.fillStyle = '#64748b'; 
-        ctxS.strokeStyle = '#334155';
-        ctxS.lineWidth = 2;
-        ctxS.fillRect(centerX - 40, topGripY - 60, 80, 60);
-        ctxS.strokeRect(centerX - 40, topGripY - 60, 80, 60);
-        ctxS.fillRect(centerX - 40, bottomGripY, 80, 60);
-        ctxS.strokeRect(centerX - 40, bottomGripY, 80, 60);
-
-        // 5. Mũi tên & Ký hiệu Lực P
         if (currentP > 0 && !isBroken) {
             ctxS.fillStyle = '#ef4444';
-            drawArrow(ctxS, centerX, topGripY - 65, centerX, topGripY - 100);
-            drawArrow(ctxS, centerX, bottomGripY + 65, centerX, bottomGripY + 100);
+            drawArrow(ctxS, centerX, topGripY - 70, centerX, topGripY - 105);
+            drawArrow(ctxS, centerX, bottomGripY + 70, centerX, bottomGripY + 105);
 
             ctxS.textAlign = "left";
             ctxS.font = "bold 16px Arial";
-            ctxS.fillText("P", centerX + 15, topGripY - 80);
-            ctxS.fillText("P", centerX + 15, bottomGripY + 85);
+            ctxS.fillText("P", centerX + 15, topGripY - 85);
+            ctxS.fillText("P", centerX + 15, bottomGripY + 90);
             
+            const geometricMidY = topGripY + (bottomGripY - topGripY)/2;
             ctxS.fillStyle = 'rgba(255,255,255,0.9)';
             ctxS.strokeStyle = '#2563eb';
             ctxS.fillRect(10, geometricMidY - 20, 115, 35);
@@ -440,35 +474,35 @@
         const padLeft = 75;
         const padBottom = 60;
         const padTop = 25;
-        // Giảm padRight xuống 50 để biểu đồ giãn dài ra sát mũi tên trục x
         const padRight = 50; 
         const graphW = w - padLeft - padRight;
         const graphH = h - padBottom - padTop;
 
-        const maxScaleX = CONSTANTS.MAX_X_GRAPH * state.scaleL;
-        const maxScaleY = CONSTANTS.MAX_F_GRAPH * state.scaleF;
+        const maxRealX = 0.3 * state.L0;
+        
+        // Tính toán linh hoạt Trục Tung sao cho luôn > 5% Lực phá huỷ (Max Force)
+        const maxForceReal = 38000 * state.scaleF;
+        let maxScaleY = Math.ceil((maxForceReal * 1.05) / 5000) * 5000;
+        if (maxScaleY < maxForceReal * 1.05) { maxScaleY += 5000; } // Đảm bảo > 5% khoảng trống an toàn
+        const stepY = maxScaleY / 5;
 
-        const mapX = (x) => padLeft + (x / maxScaleX) * graphW;
+        const mapX = (realX) => padLeft + (realX / maxRealX) * graphW;
         const mapY = (y) => h - padBottom - (y / maxScaleY) * graphH;
 
+        // Vẽ Grid
         ctxG.strokeStyle = '#f1f5f9';
         ctxG.lineWidth = 1;
         ctxG.beginPath();
-        for(let i = 0; i <= 30; i+=2) {
-            let xGrid = i * state.scaleL;
-            if (xGrid > maxScaleX) break;
-            ctxG.moveTo(mapX(xGrid), padTop); ctxG.lineTo(mapX(xGrid), h - padBottom);
+        for(let i = 0; i <= maxRealX; i+=5) {
+            ctxG.moveTo(mapX(i), padTop); ctxG.lineTo(mapX(i), h - padBottom);
         }
-        for(let i = 0; i <= 45000; i+=5000) {
-            let yGrid = i * state.scaleF;
-            if (yGrid > maxScaleY) break;
-            ctxG.moveTo(padLeft, mapY(yGrid)); ctxG.lineTo(padLeft + graphW, mapY(yGrid));
+        for(let i = 0; i <= maxScaleY; i+=stepY) {
+            ctxG.moveTo(padLeft, mapY(i)); ctxG.lineTo(padLeft + graphW, mapY(i));
         }
         ctxG.stroke();
 
         ctxG.strokeStyle = '#334155'; ctxG.lineWidth = 2;
         ctxG.beginPath();
-        // Trục X băng ra hết sát lề phải
         drawArrow(ctxG, padLeft, h - padBottom, w - 20, h - padBottom); 
         drawArrow(ctxG, padLeft, h - padBottom, padLeft, padTop - 15); 
         
@@ -477,20 +511,16 @@
         
         ctxG.save();
         ctxG.translate(22, padTop + graphH / 2); ctxG.rotate(-Math.PI / 2);
-        ctxG.fillText("Lực kéo cơ học P (N)", 0, 0);
+        ctxG.fillText("Lực kéo dọc P (N)", 0, 0);
         ctxG.restore();
 
         ctxG.font = "11px Arial"; ctxG.textAlign = "center";
-        for(let i = 0; i <= 30; i+=2) {
-            let xGrid = i * state.scaleL;
-            if (xGrid > maxScaleX) break;
-            ctxG.fillText(xGrid.toFixed(1), mapX(xGrid), h - padBottom + 16);
+        for(let i = 0; i <= maxRealX; i+=5) {
+            ctxG.fillText(i.toFixed(0), mapX(i), h - padBottom + 16);
         }
         ctxG.textAlign = "right";
-        for(let i = 0; i <= 45000; i+=5000) {
-            let yGrid = i * state.scaleF;
-            if (yGrid > maxScaleY) break;
-            ctxG.fillText(Math.round(yGrid), padLeft - 8, mapY(yGrid) + 4);
+        for(let i = 0; i <= maxScaleY; i+=stepY) {
+            ctxG.fillText(Math.round(i), padLeft - 8, mapY(i) + 4);
         }
 
         if (state.xBase > 0) {
@@ -505,7 +535,7 @@
                 let realY = pB * state.scaleF;
 
                 if (xB <= 0.46) ctxG.strokeStyle = '#2563eb';      
-                else if (xB <= 4) ctxG.strokeStyle = '#d97706';    
+                else if (xB <= 4.5) ctxG.strokeStyle = '#d97706';    
                 else if (xB <= 20) ctxG.strokeStyle = '#16a34a';   
                 else ctxG.strokeStyle = '#dc2626';                 
 
@@ -538,8 +568,8 @@
     function updateAnnotations() {
         const x = state.xBase;
         if (x > 0.1) annotations[0].classList.add('show'); else annotations[0].classList.remove('show');
-        if (x > 0.46) annotations[1].classList.add('show'); else annotations[1].classList.remove('show');
-        if (x > 4) annotations[2].classList.add('show'); else annotations[2].classList.remove('show');
+        if (x > 0.5) annotations[1].classList.add('show'); else annotations[1].classList.remove('show');
+        if (x > 4.5) annotations[2].classList.add('show'); else annotations[2].classList.remove('show');
         if (x > 20) annotations[3].classList.add('show'); else annotations[3].classList.remove('show');
     }
 
@@ -551,25 +581,6 @@
         const currentP = getPBase(state.xBase) * state.scaleF;
         valP.textContent = Math.round(currentP);
         valdL.textContent = realDeltaL.toFixed(2);
-    }
-
-    function animate() {
-        if (!state.isRunning) return;
-
-        state.xBase += 0.02 * state.speed;
-
-        if (state.xBase >= CONSTANTS.MAX_X_BASE) {
-            state.xBase = CONSTANTS.MAX_X_BASE;
-            state.isRunning = false;
-            state.isFinished = true;
-            btnStart.disabled = true;
-            btnPause.disabled = true;
-            drawAll(); 
-            return;
-        }
-
-        drawAll();
-        animationFrameId = requestAnimationFrame(animate);
     }
 
     function readInputs() {
@@ -584,56 +595,35 @@
         state.scaleL = state.L0 / 100;
     }
 
-    function resetTest() {
-        state.isRunning = false;
-        state.isFinished = false;
-        cancelAnimationFrame(animationFrameId);
-        state.xBase = 0;
+    // --- SỰ KIỆN THANH TRƯỢT GIA TẢI ---
+    pullSlider.addEventListener('input', (e) => {
+        // Slider value 25 (Top) -> 0 (Bottom)
+        // Chúng ta lấy xBase từ 0 (chưa kéo) -> 25 (đứt) bằng cách lật ngược value
+        const val = parseFloat(e.target.value);
+        state.xBase = CONSTANTS.MAX_X_BASE - val;
         
-        state.breakRatio = Math.random() * (0.5 - 0.333) + 0.333; 
-        
-        inputD.disabled = false;
-        inputL0.disabled = false;
-        btnStart.disabled = false;
-        btnPause.disabled = true;
-        
-        readInputs();
-        drawAll();
-    }
-
-    btnStart.addEventListener('click', () => {
-        if (state.isFinished) return;
         if (state.xBase === 0) {
-            readInputs(); 
+            // Khi kéo slider về vị trí xuất phát, reset lại vị trí đứt ngẫu nhiên và mở khóa Input
+            inputD.disabled = false;
+            inputL0.disabled = false;
+            state.breakRatio = Math.random() * (0.666 - 0.333) + 0.333; 
+        } else {
+            // Đang kéo dở thì khóa input thông số mẫu
             inputD.disabled = true;
             inputL0.disabled = true;
         }
-        state.isRunning = true;
-        state.speed = parseFloat(speedSlider.value);
-        btnStart.disabled = true;
-        btnPause.disabled = false;
-        animate();
-    });
 
-    btnPause.addEventListener('click', () => {
-        state.isRunning = false;
-        cancelAnimationFrame(animationFrameId);
-        btnStart.disabled = false;
-        btnPause.disabled = true;
-    });
-
-    btnReset.addEventListener('click', resetTest);
-
-    speedSlider.addEventListener('input', (e) => {
-        state.speed = parseFloat(e.target.value);
+        drawAll();
     });
 
     inputD.addEventListener('change', () => { readInputs(); drawAll(); });
     inputL0.addEventListener('change', () => { readInputs(); drawAll(); });
 
     setTimeout(() => {
+        state.breakRatio = Math.random() * (0.666 - 0.333) + 0.333;
         resizeCanvases();
-        resetTest();
+        readInputs();
+        drawAll();
     }, 100);
 
 </script>
