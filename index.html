@@ -22,118 +22,118 @@
         }
     </style>
 </head>
-<body class="bg-neutral-900 p-1 lg:p-4 flex items-center justify-center font-sans min-h-screen text-slate-800">
+<body class="bg-neutral-900 p-1 md:p-4 flex items-center justify-center font-sans min-h-screen text-slate-800">
 
-    <!-- Container chính: Tỷ lệ 19:8 -->
-    <div class="w-full max-w-[1600px] aspect-video bg-white rounded-3xl shadow-2xl flex flex-col overflow-hidden mx-auto relative">
+    <!-- Container chính: Chiều cao bao phủ màn hình 98vh để không bị cắt xén nội dung -->
+    <div class="w-full max-w-[1600px] h-[98vh] sm:h-[95vh] bg-white rounded-3xl shadow-2xl flex flex-col overflow-hidden mx-auto relative">
         
         <!-- Header -->
         <div class="bg-slate-800 text-white p-3 px-6 flex justify-between items-center shrink-0 z-20 relative">
             <h1 class="text-xl lg:text-2xl font-black tracking-wide uppercase">Thí nghiệm Xác định Mô đun Đàn hồi E - Định luật Hooke</h1>
             <div class="flex items-center gap-2 bg-slate-700 px-4 py-2 rounded-lg border border-slate-600">
                 <span class="w-3 h-3 rounded-full bg-green-400 animate-pulse"></span>
-                <span class="text-sm font-semibold">Mô phỏng Trực tiếp</span>
+                <span class="text-sm font-semibold hidden md:inline">Mô phỏng Trực tiếp</span>
             </div>
         </div>
 
         <!-- Nội dung chia cột: Trái 1/3, Phải 2/3 -->
-        <div class="flex-grow flex flex-col lg:flex-row overflow-hidden bg-slate-50 relative">
+        <div class="flex-grow flex flex-col md:flex-row overflow-hidden bg-slate-50 relative">
             
             <!-- CỘT TRÁI (1/3): MẪU VÀ HỆ THỐNG ĐO -->
-            <div class="w-full lg:w-1/3 h-[400px] lg:h-full border-r border-slate-300 bg-white relative flex flex-col z-10 shrink-0">
+            <div class="w-full md:w-1/3 h-[400px] md:h-full border-b md:border-b-0 md:border-r border-slate-300 bg-white relative flex flex-col z-10 shrink-0">
                 
                 <!-- Bảng Cảnh báo Lỗi (Phủ kín vùng đồ hoạ SVG) -->
                 <div id="big-error-banner" class="hidden absolute inset-0 z-50 error-overlay bg-red-900/30 flex items-center justify-center p-6">
                     <div class="bg-red-600 text-white p-8 rounded-2xl border-4 border-red-300 shadow-2xl text-center pulse-danger w-full">
                         <svg class="w-20 h-20 mx-auto mb-4 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
-                        <h2 class="text-3xl font-black uppercase mb-2">LỖI VƯỢT GIỚI HẠN!</h2>
-                        <p class="text-lg font-bold opacity-90">Thí nghiệm hỏng do xuất hiện biến dạng dư.</p>
+                        <h2 class="text-2xl lg:text-3xl font-black uppercase mb-2">LỖI VƯỢT GIỚI HẠN!</h2>
+                        <p class="text-base lg:text-lg font-bold opacity-90">Thí nghiệm hỏng do xuất hiện biến dạng dư.</p>
                         <p class="text-sm mt-2 opacity-75">(Vui lòng giảm tải trọng P)</p>
                     </div>
                 </div>
 
-                <div class="absolute top-2 left-1/2 -translate-x-1/2 z-20 bg-white/90 backdrop-blur px-4 py-1.5 rounded-full shadow border font-bold text-slate-700 text-sm">
+                <div class="absolute top-2 left-1/2 -translate-x-1/2 z-20 bg-white/90 backdrop-blur px-4 py-1.5 rounded-full shadow border font-bold text-slate-700 text-xs lg:text-sm whitespace-nowrap">
                     Mẫu Thử & Cảm Biến
                 </div>
                 <div class="flex-grow w-full overflow-hidden flex items-center justify-center p-2" id="main-svg-container"></div>
             </div>
 
             <!-- CỘT PHẢI (2/3): ĐIỀU KHIỂN VÀ XỬ LÝ SỐ LIỆU -->
-            <div class="w-full lg:w-2/3 h-full p-4 flex flex-col gap-4 overflow-hidden" id="right-panel">
+            <div class="w-full md:w-2/3 h-full p-2 md:p-4 flex flex-col gap-4 overflow-y-auto custom-scrollbar" id="right-panel">
                 
-                <!-- HÀNG TRÊN (50%): Gộp MÁY KÉO + THÔNG TIN MẪU -->
-                <div class="bg-white p-4 lg:p-5 rounded-2xl border border-slate-200 shadow-sm flex flex-col flex-1 min-h-0">
-                    <h2 class="text-xl font-black text-slate-800 mb-4 text-center border-b border-slate-100 pb-2 uppercase tracking-wide shrink-0">
+                <!-- HÀNG TRÊN (50%): Gộp MÁY KÉO + THÔNG TIN MẪU (ĐÃ GỠ THANH CUỘN VÀ ÉP CỐ ĐỊNH) -->
+                <div class="bg-white p-3 lg:p-4 rounded-2xl border border-slate-200 shadow-sm flex flex-col flex-none lg:flex-[1.1] min-h-0">
+                    <h2 class="text-lg font-black text-slate-800 mb-2 lg:mb-3 text-center border-b border-slate-100 pb-2 uppercase tracking-wide shrink-0">
                         Máy Kéo Cơ Học Và Thông Tin Mẫu Thử
                     </h2>
                     
-                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start flex-1 min-h-0 overflow-y-auto custom-scrollbar">
+                    <div class="flex flex-col lg:flex-row gap-4 items-center justify-center flex-1 min-h-0 w-full">
                         
-                        <!-- Đồng hồ Lực (Trái 4 cột) -->
-                        <div class="lg:col-span-4 flex justify-center items-center h-full min-h-[200px]" id="force-dial-container"></div>
+                        <!-- Đồng hồ Lực -->
+                        <div class="w-full lg:w-2/5 flex justify-center items-center h-full min-h-[160px] shrink-0" id="force-dial-container"></div>
                         
-                        <!-- Điều khiển (Phải 8 cột) -->
-                        <div class="lg:col-span-8 flex flex-col gap-4">
+                        <!-- Điều khiển -->
+                        <div class="w-full lg:w-3/5 flex flex-col justify-center gap-3 shrink-0">
                             
-                            <!-- 2 Khối Nút Chọn Vật Liệu & Hình Dáng Căn chỉnh thẳng hàng -->
-                            <div class="grid grid-cols-2 gap-4">
+                            <!-- 2 Khối Nút Chọn Vật Liệu & Hình Dáng -->
+                            <div class="grid grid-cols-2 gap-3">
                                 <div class="flex flex-col gap-1.5">
-                                    <label class="font-bold text-xs text-slate-500 uppercase tracking-wider">Vật liệu:</label>
-                                    <div class="flex gap-2">
-                                        <button onclick="changeMaterial('steel')" id="btn-steel" class="mat-btn flex-1 py-1.5 bg-blue-600 text-white rounded-lg text-sm font-bold border-2 border-blue-600 transition">Thép CT3</button>
-                                        <button onclick="changeMaterial('alu')" id="btn-alu" class="mat-btn flex-1 py-1.5 bg-slate-100 text-slate-600 hover:bg-slate-200 rounded-lg text-sm font-bold border-2 border-transparent transition">Nhôm</button>
-                                        <button onclick="changeMaterial('carbon')" id="btn-carbon" class="mat-btn flex-1 py-1.5 bg-slate-100 text-slate-600 hover:bg-slate-200 rounded-lg text-sm font-bold border-2 border-transparent transition">Sợi Carbon</button>
+                                    <label class="font-bold text-[11px] lg:text-xs text-slate-500 uppercase tracking-wider">Vật liệu:</label>
+                                    <div class="flex flex-wrap lg:flex-nowrap gap-1.5">
+                                        <button onclick="changeMaterial('steel')" id="btn-steel" class="mat-btn flex-1 py-1 bg-blue-600 text-white rounded text-xs font-bold border-2 border-blue-600 transition">Thép CT3</button>
+                                        <button onclick="changeMaterial('alu')" id="btn-alu" class="mat-btn flex-1 py-1 bg-slate-100 text-slate-600 hover:bg-slate-200 rounded text-xs font-bold border-2 border-transparent transition">Nhôm</button>
+                                        <button onclick="changeMaterial('carbon')" id="btn-carbon" class="mat-btn flex-1 py-1 bg-slate-100 text-slate-600 hover:bg-slate-200 rounded text-xs font-bold border-2 border-transparent transition">Carbon</button>
                                     </div>
                                 </div>
                                 <div class="flex flex-col gap-1.5">
-                                    <label class="font-bold text-xs text-slate-500 uppercase tracking-wider">Mặt cắt Mẫu:</label>
-                                    <div class="flex gap-2">
-                                        <button onclick="changeShape('round')" id="btn-round" class="shape-btn flex-1 py-1.5 bg-teal-600 text-white rounded-lg text-sm font-bold border-2 border-teal-600 transition">Tròn (d)</button>
-                                        <button onclick="changeShape('rect')" id="btn-rect" class="shape-btn flex-1 py-1.5 bg-slate-100 text-slate-600 hover:bg-slate-200 rounded-lg text-sm font-bold border-2 border-transparent transition">Chữ Nhật</button>
+                                    <label class="font-bold text-[11px] lg:text-xs text-slate-500 uppercase tracking-wider">Mặt cắt Mẫu:</label>
+                                    <div class="flex flex-wrap lg:flex-nowrap gap-1.5">
+                                        <button onclick="changeShape('round')" id="btn-round" class="shape-btn flex-1 py-1 bg-teal-600 text-white rounded text-xs font-bold border-2 border-teal-600 transition">Tròn (d)</button>
+                                        <button onclick="changeShape('rect')" id="btn-rect" class="shape-btn flex-1 py-1 bg-slate-100 text-slate-600 hover:bg-slate-200 rounded text-xs font-bold border-2 border-transparent transition">Chữ Nhật</button>
                                     </div>
                                 </div>
                             </div>
 
                             <!-- Slider Lực Kéo -->
-                            <div class="bg-red-50 p-3 rounded-xl border border-red-200 shadow-inner">
-                                <label class="flex justify-between items-end text-sm font-bold text-red-900 mb-2">
-                                    <span class="uppercase tracking-wide">Tăng tải trọng Máy kéo (P)</span>
-                                    <span class="text-xl bg-white px-2 py-0.5 rounded shadow-sm border border-red-100"><span id="txt-force-1">0</span> <span class="text-sm text-red-700">kG</span></span>
+                            <div class="bg-red-50 p-2 lg:p-3 rounded-xl border border-red-200 shadow-inner">
+                                <label class="flex justify-between items-end text-[13px] lg:text-sm font-bold text-red-900 mb-1.5">
+                                    <span class="uppercase tracking-wide">Tăng tải trọng (P)</span>
+                                    <span class="text-lg lg:text-xl bg-white px-2 py-0.5 rounded shadow-sm border border-red-100"><span id="txt-force-1">0</span> <span class="text-xs lg:text-sm text-red-700">kG</span></span>
                                 </label>
-                                <input type="range" id="inp-force" min="0" max="1000" step="5" value="0" class="w-full h-2.5 bg-red-200 rounded-lg appearance-none cursor-pointer accent-red-600" />
+                                <input type="range" id="inp-force" min="0" max="1000" step="5" value="0" class="w-full h-2 bg-red-200 rounded-lg appearance-none cursor-pointer accent-red-600" />
                             </div>
 
                             <!-- Slider Kích thước Mẫu -->
-                            <div class="bg-slate-100 p-3 rounded-xl border border-slate-200 space-y-3 shadow-inner">
+                            <div class="bg-slate-100 p-2 lg:p-3 rounded-xl border border-slate-200 space-y-2 shadow-inner">
                                 <div id="controls-round">
-                                    <label class="flex justify-between text-sm font-bold text-slate-700 mb-1.5">
+                                    <label class="flex justify-between text-xs lg:text-sm font-bold text-slate-700 mb-1">
                                         <span>Đường kính làm việc d<sub>1</sub></span>
-                                        <span class="text-blue-700 text-base"><span id="txt-d1">10.0</span> mm</span>
+                                        <span class="text-blue-700 text-sm lg:text-base"><span id="txt-d1">10.0</span> mm</span>
                                     </label>
                                     <input type="range" id="inp-d1" min="5" max="10" step="0.2" value="10" class="w-full h-1.5 bg-slate-300 rounded-lg appearance-none cursor-pointer accent-blue-600" />
                                 </div>
                                 
-                                <div id="controls-rect" class="hidden space-y-3">
+                                <div id="controls-rect" class="hidden space-y-2">
                                     <div>
-                                        <label class="flex justify-between text-sm font-bold text-slate-700 mb-1.5">
+                                        <label class="flex justify-between text-xs lg:text-sm font-bold text-slate-700 mb-1">
                                             <span>Bề rộng b</span>
-                                            <span class="text-blue-700 text-base"><span id="txt-b">4.5</span> mm</span>
+                                            <span class="text-blue-700 text-sm lg:text-base"><span id="txt-b">4.5</span> mm</span>
                                         </label>
                                         <input type="range" id="inp-b" min="4" max="5" step="0.1" value="4.5" class="w-full h-1.5 bg-slate-300 rounded-lg appearance-none cursor-pointer accent-blue-600" />
                                     </div>
                                     <div>
-                                        <label class="flex justify-between text-sm font-bold text-slate-700 mb-1.5">
+                                        <label class="flex justify-between text-xs lg:text-sm font-bold text-slate-700 mb-1">
                                             <span>Chiều dầy h</span>
-                                            <span class="text-blue-700 text-base"><span id="txt-h">28.0</span> mm</span>
+                                            <span class="text-blue-700 text-sm lg:text-base"><span id="txt-h">28.0</span> mm</span>
                                         </label>
                                         <input type="range" id="inp-h" min="25" max="30" step="0.5" value="28" class="w-full h-1.5 bg-slate-300 rounded-lg appearance-none cursor-pointer accent-blue-600" />
                                     </div>
                                 </div>
 
                                 <div class="pt-1.5 border-t border-slate-200">
-                                    <label class="flex justify-between text-sm font-bold text-slate-700 mb-1.5">
+                                    <label class="flex justify-between text-xs lg:text-sm font-bold text-slate-700 mb-1">
                                         <span>Chiều dài chuẩn a</span>
-                                        <span class="text-blue-700 text-base"><span id="txt-a-1">200</span> mm</span>
+                                        <span class="text-blue-700 text-sm lg:text-base"><span id="txt-a-1">200</span> mm</span>
                                     </label>
                                     <input type="range" id="inp-a" min="100" max="200" step="5" value="200" class="w-full h-1.5 bg-slate-300 rounded-lg appearance-none cursor-pointer accent-blue-600" />
                                 </div>
@@ -144,7 +144,7 @@
                 </div>
 
                 <!-- HÀNG DƯỚI (50%): Đo đạc (25%) - Đồ thị (50%) - Hooke (25%) -->
-                <div class="flex flex-col xl:flex-row gap-4 flex-1 min-h-0">
+                <div class="flex flex-col xl:flex-row gap-4 flex-1 min-h-[300px]">
                     
                     <!-- 1. Cột Đo đạc (Bên Trái) -->
                     <div class="flex-1 bg-white p-3 lg:p-4 rounded-2xl border border-slate-200 flex flex-col shadow-sm min-h-0">
@@ -170,7 +170,7 @@
                     </div>
 
                     <!-- 2. Chart (Chính Giữa Mở Rộng) -->
-                    <div class="flex-[2] bg-white p-3 rounded-2xl border border-slate-200 shadow-sm flex flex-col relative min-h-0">
+                    <div class="flex-[2] bg-white p-3 rounded-2xl border border-slate-200 shadow-sm flex flex-col relative min-h-[200px]">
                         <h3 class="font-black text-slate-700 mb-2 text-center text-sm uppercase tracking-wide shrink-0">Biểu đồ Ứng suất - Biến dạng </h3>
                         <canvas id="hookeChart" class="w-full flex-1 rounded-lg border border-slate-200 bg-[#fafafa] min-h-0"></canvas>
                         <div class="absolute bottom-1 left-1/2 -translate-x-1/2 text-[10px] text-slate-600 font-bold px-2 rounded">ε (×10⁻³)</div>
@@ -183,16 +183,16 @@
                         <ul class="flex flex-col justify-between flex-1 min-h-0 gap-1 overflow-y-auto custom-scrollbar">
                             <li class="flex flex-col bg-white p-1.5 rounded border border-emerald-100">
                                 <span class="text-emerald-700 text-xs font-bold">Ứng suất σ:</span>
-                                <span class="font-black text-emerald-900 text-base text-right"><span id="txt-stress">0.00</span><span class="text-xs font-bold text-emerald-700 mt-1">kG/mm²</span>
+                                <span class="font-black text-emerald-900 text-base text-right"><span id="txt-stress">0.00</span><span class="text-xs font-bold text-emerald-700 mt-1 pl-1">kG/mm²</span></span>
                             </li>
                             <li class="flex flex-col bg-white p-1.5 rounded border border-emerald-100">
                                 <span class="text-emerald-700 text-xs font-bold">Biến dạng ε:</span>
-                                <span class="font-black text-emerald-900 text-base text-right"><span id="txt-strain">0.0000</span><span class="text-xs font-bold text-emerald-700 mt-1">(×10⁻³)</span>
+                                <span class="font-black text-emerald-900 text-base text-right"><span id="txt-strain">0.0000</span><span class="text-xs font-bold text-emerald-700 mt-1 pl-1">(×10⁻³)</span></span>
                             </li>
                             <li class="mt-1">
-                                <div class="flex flex-col items-center bg-white p-3 rounded-xl border border-emerald-300 shadow-md">
+                                <div class="flex flex-col items-center justify-center bg-white p-3 rounded-xl border border-emerald-300 shadow-md">
                                     <span class="text-emerald-800 font-black text-[11px] mb-1 text-center">Mô đun Đàn hồi E</span>
-                                    <div class="text-2xl font-black text-emerald-600 tracking-tighter leading-none" id="txt-E">---</div>
+                                    <div class="text-xl lg:text-2xl font-black text-emerald-600 tracking-tighter leading-none" id="txt-E">---</div>
                                     <span class="text-xs font-bold text-emerald-700 mt-1">kG/mm²</span>
                                 </div>
                             </li>
@@ -285,9 +285,9 @@
             
             // UI Button Style
             document.querySelectorAll('.mat-btn').forEach(btn => {
-                btn.className = 'mat-btn flex-1 py-1.5 bg-slate-100 text-slate-600 hover:bg-slate-200 rounded-lg text-sm font-bold border-2 border-transparent transition';
+                btn.className = 'mat-btn flex-1 py-1 bg-slate-100 text-slate-600 hover:bg-slate-200 rounded text-xs font-bold border-2 border-transparent transition';
             });
-            document.getElementById(`btn-${mat}`).className = 'mat-btn flex-1 py-1.5 bg-blue-600 text-white rounded-lg text-sm font-bold border-2 border-blue-600 transition';
+            document.getElementById(`btn-${mat}`).className = 'mat-btn flex-1 py-1 bg-blue-600 text-white rounded text-xs font-bold border-2 border-blue-600 transition';
             
             updateSimulation();
         };
@@ -300,9 +300,9 @@
             state.isError = false;
 
             document.querySelectorAll('.shape-btn').forEach(btn => {
-                btn.className = 'shape-btn flex-1 py-1.5 bg-slate-100 text-slate-600 hover:bg-slate-200 rounded-lg text-sm font-bold border-2 border-transparent transition';
+                btn.className = 'shape-btn flex-1 py-1 bg-slate-100 text-slate-600 hover:bg-slate-200 rounded text-xs font-bold border-2 border-transparent transition';
             });
-            document.getElementById(`btn-${shape}`).className = 'shape-btn flex-1 py-1.5 bg-teal-600 text-white rounded-lg text-sm font-bold border-2 border-teal-600 transition';
+            document.getElementById(`btn-${shape}`).className = 'shape-btn flex-1 py-1 bg-teal-600 text-white rounded text-xs font-bold border-2 border-teal-600 transition';
 
             if (shape === 'round') {
                 document.getElementById('controls-round').classList.remove('hidden');
@@ -318,7 +318,7 @@
         function renderForceDial() {
             const forceAngle = (state.force / 1000) * 360;
             let dialHTML = `
-                <svg width="100%" height="100%" viewBox="0 0 300 300" class="drop-shadow-2xl max-w-[260px] max-h-full">
+                <svg width="100%" height="100%" viewBox="0 0 300 300" class="drop-shadow-2xl max-w-[240px] max-h-full">
                     <circle cx="150" cy="150" r="148" fill="#cbd5e1" />
                     <circle cx="150" cy="150" r="138" fill="#f8fafc" stroke="#475569" stroke-width="6" />
                     <circle cx="150" cy="150" r="128" fill="#ffffff" stroke="#e2e8f0" stroke-width="2" />
